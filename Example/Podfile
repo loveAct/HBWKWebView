@@ -8,9 +8,6 @@ target 'HBWKWebView_Example' do
   target 'HBWKWebView_Tests' do
     inherit! :search_paths
 
-    pod 'Specta'
-    pod 'Expecta'
-    pod 'FBSnapshotTestCase'
-    pod 'Expecta+Snapshots'
+    
   end
 end

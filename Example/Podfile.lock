@@ -1,0 +1,16 @@
+PODS:
+  - HBWKWebView (0.1.0)
+
+DEPENDENCIES:
+  - HBWKWebView (from `../`)
+
+EXTERNAL SOURCES:
+  HBWKWebView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  HBWKWebView: 3dd5c5d1fbb2204001babda1a260c9b229a627e3
+
+PODFILE CHECKSUM: 3628e4160cec1a707d6cff8c23e75663922d347e
+
+COCOAPODS: 1.8.4
