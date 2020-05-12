@@ -9,20 +9,8 @@
 Pod::Spec.new do |s|
   s.name             = 'HBWKWebView'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of HBWKWebView.'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
-                       
+  s.summary          = 'HBWKWebView Base for WKWebView To H5.'
   s.homepage         = 'https://github.com/loveAct/HBWKWebView'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'loveAct' => '413441478@qq.com' }
   s.source           = { :git => 'https://github.com/loveAct/HBWKWebView.git', :tag => s.version.to_s }
@@ -39,4 +27,21 @@ TODO: Add long description of the pod here.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
+  s.dependency 'WebViewJavascriptBridge', '~> 6.0'
+  s.dependency 'Masonry',                 '1.1.0'
+#  s.dependency 'KVOController',           '1.1.0'
+  s.prefix_header_file = 'HBWKWebView/Classes/HBWKWebViewHeader.h'
+
+
+#  s.subspec 'Agora' do |agora|
+#    agora.source_files = 'Agora/*.{h,m}'
+#    agora.public_header_files = 'Agora/*.h'
+#    agora.vendored_frameworks = "Agora/SDK/AgoraRtcEngineKit.framework"
+#    agora.dependency 'ZMChannelManager/Manager'
+#
+#    agora.frameworks   = "SystemConfiguration", "CoreMedia", "Accelerate", "AVFoundation", "AudioToolbox", "VideoToolbox", "CoreTelephony","CoreML"
+#    agora.libraries    = "c++", "resolv",'icucore'
+#
+#  end
+
 end

@@ -22,7 +22,7 @@ pod 'HBWKWebView'
 
 ## Author
 
-wanghaibo1991, 413441478@qq.com
+wanghaibo, 413441478@qq.com
 
 ## License
 

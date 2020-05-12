@@ -1,16 +1,27 @@
 PODS:
-  - HBWKWebView (0.1.0)
+  - HBWKWebView (0.1.0):
+    - Masonry (= 1.1.0)
+    - WebViewJavascriptBridge (~> 6.0)
+  - Masonry (1.1.0)
+  - WebViewJavascriptBridge (6.0.3)
 
 DEPENDENCIES:
   - HBWKWebView (from `../`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Masonry
+    - WebViewJavascriptBridge
 
 EXTERNAL SOURCES:
   HBWKWebView:
     :path: "../"
 
 SPEC CHECKSUMS:
-  HBWKWebView: 3dd5c5d1fbb2204001babda1a260c9b229a627e3
+  HBWKWebView: 4baa0b6f1b94dde8b27f5b25123bd25863c7b453
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
 
-PODFILE CHECKSUM: 3628e4160cec1a707d6cff8c23e75663922d347e
+PODFILE CHECKSUM: 0673cdf39fb8b418bf9660d3e6a01c9d8ed8fc07
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

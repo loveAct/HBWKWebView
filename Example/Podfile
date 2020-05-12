@@ -1,9 +1,13 @@
 use_frameworks!
 
 platform :ios, '8.0'
+source 'https://github.com/CocoaPods/Specs.git'
 
 target 'HBWKWebView_Example' do
   pod 'HBWKWebView', :path => '../'
+#  pod 'HBLib',       :path => '../../HBLib/'
+
+#  pod 'WebViewJavascriptBridge'
 
   target 'HBWKWebView_Tests' do
     inherit! :search_paths
