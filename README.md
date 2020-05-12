@@ -16,15 +16,20 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 重写hb_registerHandlerName  H5解析方法和本地函数解析方法
 
 以分类的形式，解析方法key与H5交互
+
+```Objc
 //H5  交互的解析方法   goBack  为解析key
 HBWKWebView_Type_dicCallback(goBack){
     NSLog(@"call goBack");
 }
+
 //dic:(NSDictionary*)dic Callback:(HBWebResponseCallback)Callback
 HBWKWebView_Type_dicCallback(Share){
     NSLog(@"call Share %@",dic);
     Callback(@"ss");
 }
+```
+
 
 ## Installation
 
