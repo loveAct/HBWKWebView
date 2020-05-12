@@ -32,16 +32,4 @@ Pod::Spec.new do |s|
 #  s.dependency 'KVOController',           '1.1.0'
   s.prefix_header_file = 'HBWKWebView/Classes/HBWKWebViewHeader.h'
 
-
-#  s.subspec 'Agora' do |agora|
-#    agora.source_files = 'Agora/*.{h,m}'
-#    agora.public_header_files = 'Agora/*.h'
-#    agora.vendored_frameworks = "Agora/SDK/AgoraRtcEngineKit.framework"
-#    agora.dependency 'ZMChannelManager/Manager'
-#
-#    agora.frameworks   = "SystemConfiguration", "CoreMedia", "Accelerate", "AVFoundation", "AudioToolbox", "VideoToolbox", "CoreTelephony","CoreML"
-#    agora.libraries    = "c++", "resolv",'icucore'
-#
-#  end
-
 end
