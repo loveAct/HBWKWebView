@@ -12,9 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HBWKWebViewManager : NSObject
 
++(instancetype)sharedManager;
+
 -(void)initializeManagerWithvc:(id<HBWKWebViewProtocol>)vc webView:(WKWebView*)webView params:(NSDictionary*)params bridge:(WKWebViewJavascriptBridge*)bridge;
 
--(void)registModels:(HBWKWebViewModel *)model;
+//注册使用类   和  使用方法  处理方法
+-(void)registModels:(HBWKWebViewModel *)model cls:(Class)cls;
 
 @end
 

@@ -7,7 +7,7 @@
 //
 
 #import "HBViewController.h"
-
+#import <HBWKWebViewHeader.h>
 @interface HBViewController ()
 
 @end
@@ -17,13 +17,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    self.view.backgroundColor = [UIColor whiteColor];
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    HBWKWebViewController *webVC = [[HBWKWebViewController alloc]init];
+    
+    [webVC loadRequestWithUrl:@"https://www.baidu.com"];
+    
+    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 @end

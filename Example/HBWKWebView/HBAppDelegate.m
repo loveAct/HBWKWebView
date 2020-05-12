@@ -7,12 +7,14 @@
 //
 
 #import "HBAppDelegate.h"
+#import <HBWKWebViewHeader.h>
 
 @implementation HBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+
+    [HBWKWebViewBaseBusiness hb_registerHandlerName];
     return YES;
 }
 

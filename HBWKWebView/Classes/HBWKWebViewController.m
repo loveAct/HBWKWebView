@@ -62,10 +62,11 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     [self setupUI];
     [self addObserver];
-    
+    [self loadRealRequest];
+
     _webViewBridge = [WKWebViewJavascriptBridge bridgeForWebView:self.webView];
     [_webViewBridge setWebViewDelegate:self];//下面代理的执行
 }
@@ -206,9 +207,7 @@
 
 #pragma mark -  网络请求
 - (void)loadRealRequest{
-    if (!_requestURL) {
-        return;
-    }
+    
    WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
    configuration.userContentController = [WKUserContentController new];
    
@@ -217,17 +216,8 @@
    preferences.minimumFontSize = 30.0;
    configuration.preferences = preferences;
    
-   _webView = [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
-   _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-   
-   if ([_webView respondsToSelector:@selector(setNavigationDelegate:)]) {
-       [_webView setNavigationDelegate:self];
-   }
-   
-   if ([_webView respondsToSelector:@selector(setDelegate:)]) {
-       [_webView setUIDelegate:self];
-   }
-   NSURL *url = [NSURL URLWithString:@"http://www.baidu.com"];
+
+   NSURL *url = [NSURL URLWithString:self.urlStr];
    NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
     [self.webView loadRequest:request];
@@ -314,9 +304,9 @@
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation
 {
 }
-- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
-    
-}
+//- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
+//
+//}
 
 //加载H5失败
 -(void)loadUrlFailed{
@@ -353,7 +343,7 @@
     [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.equalTo(self.view);
         make.top.equalTo(self.view);
-        make.height.equalTo(@0.5);
+        make.height.equalTo(@1);
     }];
     [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.trailing.bottom.equalTo(self.view);
@@ -403,7 +393,6 @@
 
 #pragma mark - setter getter
 -(void)setUrlStr:(NSString *)urlStr{
-    
     _urlStr = urlStr;
 }
 - (WKWebView *)webView{

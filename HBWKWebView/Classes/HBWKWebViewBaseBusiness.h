@@ -12,8 +12,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^HBWebResponseCallback)(id responseData);
+typedef void (^HBHandler)(id data, HBWebResponseCallback responseCallback);
+
+
 //命名规则   方法     typeName
-//-(void)ZMWKWebView_<#type#>_dic:(NSDictionary*)dic Callback:(ZMWebResponseCallback)Callback
+//-(void)HBWKWebView_type_dic:(NSDictionary*)dic Callback:(HBWebResponseCallback)Callback
 
 #define HBWKWebView_Type_dicCallback(type)\
 -(void)HBWKWebView_##type##_dic:(NSDictionary*)dic Callback:(HBWebResponseCallback)Callback
@@ -25,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 //桥接
 @property (nonatomic,weak) WKWebViewJavascriptBridge *webViewBridge;
 
++(void)hb_registerHandlerName;
 @end
 
 NS_ASSUME_NONNULL_END

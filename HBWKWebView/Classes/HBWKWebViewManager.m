@@ -16,24 +16,37 @@ static char WKWebViewBusiness;
 
 @property (nonatomic, strong) NSMutableArray *registModels;
 
+/// <#name#>
+@property (nonatomic, assign) Class cls;
+
 @end
 
 @implementation HBWKWebViewManager
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
++(instancetype)sharedManager{
+    static HBWKWebViewManager*manager;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        //不能再使用alloc方法
+        //因为已经重写了allocWithZone方法，所以这里要调用父类的分配空间的方法
+        manager = [[super allocWithZone:NULL] init];
+    });
+    return manager;
 }
+// 防止外部调用alloc 或者 new
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    return [HBWKWebViewManager sharedManager];
+}
+// 防止外部调用copy
+- (id)copyWithZone:(nullable NSZone *)zone {
+    return [HBWKWebViewManager sharedManager];
+}
+
 
 -(void)initializeManagerWithvc:(id<HBWKWebViewProtocol>)vc webView:(WKWebView*)webView params:(NSDictionary*)params bridge:(WKWebViewJavascriptBridge*)bridge{
 
     HBWKWebViewBaseBusiness *bus = objc_getAssociatedObject(vc, &WKWebViewBusiness);
     if (bus) {return;}
-    bus = [[HBWKWebViewBaseBusiness alloc] init];
+    bus = [[self.cls alloc] init];
     objc_setAssociatedObject(self, &WKWebViewBusiness, bus, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     bus.webView=webView;
@@ -54,9 +67,13 @@ static char WKWebViewBusiness;
                    data:(id)data
        responseCallback:(WVJBResponseCallback) responseCallback{
     HBWKWebViewBaseBusiness *bus = objc_getAssociatedObject(vc, &WKWebViewBusiness);
-    NSInvocation *invo = [NSInvocation invocationWithMethodSignature:[NSMethodSignature methodSignatureForSelector:NSSelectorFromString(sel)]];
-//    [invo setTarget:bus];
-//    invo setArgument:<#(nonnull void *)#> atIndex:<#(NSInteger)#>
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature methodSignatureForSelector:NSSelectorFromString(sel)]];
+    invocation.target = bus;
+    //invocation中的方法必须和签名中的方法一致。
+    invocation.selector = NSSelectorFromString(sel);
+    [invocation setArgument:&data atIndex:2];
+    [invocation setArgument:&responseCallback atIndex:3];
+    [invocation invoke];
 }
 
 
@@ -77,14 +94,14 @@ static char WKWebViewBusiness;
     }
 }
 
--(void)registModels:(HBWKWebViewModel *)model{
+-(void)registModels:(HBWKWebViewModel *)model cls:(Class)cls{
+    self.cls = cls;
     if ([self.registModels containsObject:model]) {return;}
     for (HBWKWebViewModel *rm in self.registModels) {
         if (rm.handleNames == model.handleNames) {
             return;
         }
     }
-
     NSDictionary *dic = [self getRegisteredNameAndHandlerWithModel:model];
     model.selDic = dic;
     [self.registModels addObject:dic];
