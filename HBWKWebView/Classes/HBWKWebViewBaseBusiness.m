@@ -47,9 +47,10 @@
     model.analyseSel = ^(NSString * _Nonnull str, HBWKAnalyseSelCallback  _Nonnull analyseCallback) {
         NSArray *array = [str componentsSeparatedByString:@"_"];
         //字符串按照【分隔成数组
-        if (array&&array.count>1&&
-            (prefixStr&&prefixStr.length>0)
-            &&(array.firstObject==prefixStr)
+        if (array
+            &&array.count>1
+            &&(prefixStr&&prefixStr.length>0)
+            &&([prefixStr isEqualToString:array.firstObject])
             &&(array[1])) {
             analyseCallback(array[1],str);
         }

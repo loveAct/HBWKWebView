@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HBWKWebViewProtocol.h"
 #import "HBWKWebViewModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param webView webView
 /// @param params 请求参数
 /// @param bridge bridge
--(void)initializeManagerWithvc:(id<HBWKWebViewProtocol>)vc
+-(void)initializeManagerWithvc:(UIViewController*)vc
                        webView:(WKWebView*)webView
                         params:(NSDictionary*)params
                         bridge:(WKWebViewJavascriptBridge*)bridge;

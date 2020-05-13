@@ -22,7 +22,8 @@ typedef void (^HBHandler)(id data, HBWebResponseCallback responseCallback);
 -(void)HBWKWebView_##type##_dic:(NSDictionary*)dic Callback:(HBWebResponseCallback)Callback
 
 @interface HBWKWebViewBaseBusiness : NSObject
-
+//VC
+@property (nonatomic,weak) UIViewController          *dependVc;
 //WKWebView
 @property (nonatomic,weak) WKWebView                 *webView;
 //桥接

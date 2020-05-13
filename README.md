@@ -11,6 +11,10 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Requirements
 
+HBWKWebView主要实现WKWebView和H5事件交互处理的分离。H5事件通过Manager进行管理。
+事件的注册是通过HBWKWebViewBaseBusiness及其分类，按照一定规则命名。
+HBWKWebViewModel主要是配置命名规则。
+
 继承 HBWKWebViewBaseBusiness
 
 重写hb_registerHandlerName  H5解析方法和本地函数解析方法
