@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void (^HBWebResponseCallback)(id responseData);
 typedef void (^HBHandler)(id data, HBWebResponseCallback responseCallback);
 
-
 //命名规则   方法     typeName
 //-(void)HBWKWebView_type_dic:(NSDictionary*)dic Callback:(HBWebResponseCallback)Callback
 
@@ -28,8 +27,12 @@ typedef void (^HBHandler)(id data, HBWebResponseCallback responseCallback);
 @property (nonatomic,weak) WKWebView                 *webView;
 //桥接
 @property (nonatomic,weak) WKWebViewJavascriptBridge *webViewBridge;
+//请求参数
+@property (nonatomic,weak) NSDictionary            *params;
 
-+(void)hb_registerHandlerName;
+//配置  H5回调 参数  和本地方法如何与H5对应
+//配置示例
++(void)configCommonH5Interaction;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -69,6 +69,7 @@
 
     _webViewBridge = [WKWebViewJavascriptBridge bridgeForWebView:self.webView];
     [_webViewBridge setWebViewDelegate:self];//下面代理的执行
+    [[HBWKWebViewManager sharedManager] initializeManagerWithvc:self webView:self.webView params:self.params bridge:_webViewBridge];
 }
 
 #pragma mark - public

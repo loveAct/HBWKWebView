@@ -14,10 +14,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(instancetype)sharedManager;
 
--(void)initializeManagerWithvc:(id<HBWKWebViewProtocol>)vc webView:(WKWebView*)webView params:(NSDictionary*)params bridge:(WKWebViewJavascriptBridge*)bridge;
+/// 初始化 H5交互 bridge
+/// @param vc 控制器
+/// @param webView webView
+/// @param params 请求参数
+/// @param bridge bridge
+-(void)initializeManagerWithvc:(id<HBWKWebViewProtocol>)vc
+                       webView:(WKWebView*)webView
+                        params:(NSDictionary*)params
+                        bridge:(WKWebViewJavascriptBridge*)bridge;
 
-//注册使用类   和  使用方法  处理方法
--(void)registModels:(HBWKWebViewModel *)model cls:(Class)cls;
+/// 向manager注册  处理类和方法  在initializeManagerWithvc之前调就可以
+/// @param model 配置信息
+-(void)registModels:(HBWKWebViewModel *)model;
 
 @end
 

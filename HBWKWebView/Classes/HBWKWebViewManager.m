@@ -9,15 +9,15 @@
 #import <objc/runtime.h>
 #import "HBWKWebViewBaseBusiness.h"
 
-static char WKWebViewBusiness;
+static char WKWebViewBusinesses;
 
 
 @interface HBWKWebViewManager ()
 
 @property (nonatomic, strong) NSMutableArray *registModels;
 
-/// <#name#>
-@property (nonatomic, assign) Class cls;
+/// 交互方法  存的类名
+@property (nonatomic, strong) NSString* clsName;
 
 @end
 
@@ -42,17 +42,58 @@ static char WKWebViewBusiness;
 }
 
 
+/// 初始化 H5交互 bridge
+/// @param vc 控制器
+/// @param webView webView
+/// @param params 请求参数
+/// @param bridge bridge
 -(void)initializeManagerWithvc:(id<HBWKWebViewProtocol>)vc webView:(WKWebView*)webView params:(NSDictionary*)params bridge:(WKWebViewJavascriptBridge*)bridge{
-
-    HBWKWebViewBaseBusiness *bus = objc_getAssociatedObject(vc, &WKWebViewBusiness);
-    if (bus) {return;}
-    bus = [[self.cls alloc] init];
-    objc_setAssociatedObject(self, &WKWebViewBusiness, bus, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    bus.webView=webView;
-    bus.webViewBridge = bridge;
+    [self createBusWithVc:vc webView:webView params:params bridge:bridge];
+}
+
+/// 创建处理类  注册handlers
+/// @param vc      控制器对象
+/// @param webView webView
+/// @param params 请求参数
+/// @param bridge bridge
+-(void)createBusWithVc:(id<HBWKWebViewProtocol>)vc
+               webView:(WKWebView*)webView
+                params:(NSDictionary*)params
+                bridge:(WKWebViewJavascriptBridge*)bridge{
+    NSMutableArray *busMarr = [NSMutableArray array];
     for (HBWKWebViewModel *model in self.registModels) {
+        if (!model.className||model.className==0) {continue;}
+        Class cls = NSClassFromString(model.className);
+        if (!cls) {continue;}
+        HBWKWebViewBaseBusiness *bus = [[cls alloc] init];
+        
+        bus.webView=webView;
+        bus.params = params;
+        bus.webViewBridge = bridge;
+
         [self registWebViewWithBridge:bridge model:model vc:vc];
+    }
+    objc_setAssociatedObject(self, &WKWebViewBusinesses, busMarr, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+/// 向JSBridge  注册handler
+/// @param bridge bridge对象
+/// @param model 包含处理
+/// @param vc 控制器对象
+-(void)registWebViewWithBridge:(WKWebViewJavascriptBridge*)bridge
+                         model:(HBWKWebViewModel*)model
+                            vc:(id<HBWKWebViewProtocol>)vc{
+    for (NSString *str in model.handleNames) {
+        [bridge registerHandler:str handler:^(id data, WVJBResponseCallback responseCallback) {
+            WVJBResponseCallback call = ^(NSString*  _Nonnull responseData) {
+                
+               NSString* sel = [model.selDic objectForKey:responseData];
+                [self callEventWithSel:sel vc:vc data:data responseCallback:responseCallback];
+            };
+            
+            model.analyseHandle(data,call);
+        }];
     }
 }
 
@@ -66,7 +107,7 @@ static char WKWebViewBusiness;
                      vc:(id<HBWKWebViewProtocol>)vc
                    data:(id)data
        responseCallback:(WVJBResponseCallback) responseCallback{
-    HBWKWebViewBaseBusiness *bus = objc_getAssociatedObject(vc, &WKWebViewBusiness);
+    HBWKWebViewBaseBusiness *bus = objc_getAssociatedObject(vc, &WKWebViewBusinesses);
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[NSMethodSignature methodSignatureForSelector:NSSelectorFromString(sel)]];
     invocation.target = bus;
     //invocation中的方法必须和签名中的方法一致。
@@ -77,25 +118,10 @@ static char WKWebViewBusiness;
 }
 
 
--(void)registWebViewWithBridge:(WKWebViewJavascriptBridge*)bridge
-                         model:(HBWKWebViewModel*)model
-                            vc:(id<HBWKWebViewProtocol>)vc{
-    for (NSString *str in model.handleNames) {
-        [bridge registerHandler:str handler:^(id data, WVJBResponseCallback responseCallback) {
-            
-            WVJBResponseCallback call = ^(NSString*  _Nonnull responseData) {
-                
-               NSString* sel = [model.selDic objectForKey:responseData];
-                [self callEventWithSel:sel vc:vc data:data responseCallback:responseCallback];
-            };
-            
-            model.analyseHandle(data,call);
-        }];
-    }
-}
 
--(void)registModels:(HBWKWebViewModel *)model cls:(Class)cls{
-    self.cls = cls;
+/// 向manager注册  处理类和方法  在initializeManagerWithvc之前调就可以
+/// @param model 配置信息
+-(void)registModels:(HBWKWebViewModel *)model{
     if ([self.registModels containsObject:model]) {return;}
     for (HBWKWebViewModel *rm in self.registModels) {
         if (rm.handleNames == model.handleNames) {

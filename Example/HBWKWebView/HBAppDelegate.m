@@ -14,7 +14,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 
-    [HBWKWebViewBaseBusiness hb_registerHandlerName];
+    [HBWKWebViewBaseBusiness configCommonH5Interaction];
     return YES;
 }
 
